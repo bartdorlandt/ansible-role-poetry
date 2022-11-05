@@ -1,6 +1,6 @@
 ---
 - name: Install Poetry # noqa command-instead-of-module
-  ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+  ansible.builtin.shell: set -o pipefail && curl -sSL https://install.python-poetry.org | python3 -
   args:
     creates: "{{ ansible_env.HOME }}/.local/bin/poetry"
 
