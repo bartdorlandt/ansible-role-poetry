@@ -1,0 +1,21 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: bartdorlandt
+  role_name: poetry
+  description: poetry installation and setup
+  license: license (BSD, MIT)
+  min_ansible_version: "2.2"
+  platforms:
+    - name: GenericUNIX
+      versions:
+        - all
+    - name: GenericBSD
+      versions:
+        - all
+    - name: GenericLinux
+      versions:
+        - all
+  galaxy_tags:
+    - development

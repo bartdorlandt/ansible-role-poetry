@@ -1,0 +1,4 @@
+---
+virtualenvs_inproject: true
+virtualenvs_prefer_active_python: true
+poetry_ohmyzsh_plugin: false
