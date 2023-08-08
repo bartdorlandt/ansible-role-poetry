@@ -1,38 +1,49 @@
 ---
-- name: Install Poetry # noqa command-instead-of-module
+- name: Register if poetry is installed via Homebrew
+  ansible.builtin.stat:
+    path: /opt/homebrew/bin/poetry
+  register: poetry_homebrew
+
+- name: Install Poetry Other OSes # noqa command-instead-of-module
   ansible.builtin.shell: set -o pipefail && curl -sSL https://install.python-poetry.org | python3 -
   args:
     creates: "{{ ansible_env.HOME }}/.local/bin/poetry"
+    executable: /bin/bash
+  when: not poetry_homebrew and not poetry_homebrew.stat.executable
 
-- name: Check Poetry virtualenvs.in-project config
-  ansible.builtin.command: ~/.local/bin/poetry config virtualenvs.in-project
-  register: poetry_in_project
-  changed_when: false
-  when: virtualenvs_inproject
+- name: Block to set the PATH environment
+  environment:
+    PATH: "/opt/homebrew/bin:/opt/homebrew/sbin:{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  block:
+    - name: Check Poetry virtualenvs.in-project config
+      ansible.builtin.command: poetry config virtualenvs.in-project
+      register: poetry_in_project
+      changed_when: false
+      when: virtualenvs_inproject
 
-- name: Configure Poetry virtualenvs.in-project
-  ansible.builtin.command: ~/.local/bin/poetry config virtualenvs.in-project true
-  when: virtualenvs_inproject and poetry_in_project.stdout != "true"
+    - name: Configure Poetry virtualenvs.in-project
+      ansible.builtin.command: poetry config virtualenvs.in-project true
+      when: virtualenvs_inproject and poetry_in_project.stdout != "true"
 
-- name: Check Poetry virtualenvs.prefer-active-python config
-  ansible.builtin.command: ~/.local/bin/poetry config virtualenvs.prefer-active-python
-  register: poetry_prefer_active_python
-  changed_when: false
-  when: virtualenvs_prefer_active_python
+    - name: Check Poetry virtualenvs.prefer-active-python config
+      ansible.builtin.command: poetry config virtualenvs.prefer-active-python
+      register: poetry_prefer_active_python
+      changed_when: false
+      when: virtualenvs_prefer_active_python
 
-- name: Configure Poetry virtualenvs.prefer-active-python
-  ansible.builtin.command: ~/.local/bin/poetry config virtualenvs.prefer-active-python true
-  when: virtualenvs_prefer_active_python and poetry_prefer_active_python.stdout != "true"
+    - name: Configure Poetry virtualenvs.prefer-active-python
+      ansible.builtin.command: poetry config virtualenvs.prefer-active-python true
+      when: virtualenvs_prefer_active_python and poetry_prefer_active_python.stdout != "true"
 
-- name: Add poetry zsh plugin directory
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry"
-    state: directory
-    mode: "0755"
-  when: poetry_ohmyzsh_plugin
+    - name: Add poetry zsh plugin directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry"
+        state: directory
+        mode: "0755"
+      when: poetry_ohmyzsh_plugin
 
-- name: Install Poetry for oh-my-zsh
-  ansible.builtin.shell: ~/.local/bin/poetry completions zsh > {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry/_poetry
-  args:
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry/_poetry"
-  when: poetry_ohmyzsh_plugin
+    - name: Install Poetry for oh-my-zsh
+      ansible.builtin.shell: poetry completions zsh > {{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry/_poetry
+      args:
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry/_poetry"
+      when: poetry_ohmyzsh_plugin
