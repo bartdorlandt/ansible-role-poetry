@@ -4,7 +4,7 @@
     path: /opt/homebrew/bin/poetry
   register: poetry_homebrew
 
-- name: Install Poetry Other OSes # noqa command-instead-of-module
+- name: Install Poetry # noqa command-instead-of-module
   ansible.builtin.shell: set -o pipefail && curl -sSL https://install.python-poetry.org | python3 -
   args:
     creates: "{{ ansible_env.HOME }}/.local/bin/poetry"
