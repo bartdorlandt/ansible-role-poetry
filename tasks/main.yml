@@ -9,7 +9,7 @@
   args:
     creates: "{{ ansible_env.HOME }}/.local/bin/poetry"
     executable: /bin/bash
-  when: not poetry_homebrew and not poetry_homebrew.stat.executable
+  when: not poetry_homebrew.stat.exists
 
 - name: Block to set the PATH environment
   environment:
