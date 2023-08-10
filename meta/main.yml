@@ -8,13 +8,10 @@ galaxy_info:
   license: license (BSD, MIT)
   min_ansible_version: "2.2"
   platforms:
-    - name: GenericUNIX
-      versions:
-        - all
-    - name: GenericBSD
-      versions:
-        - all
     - name: GenericLinux
+      versions:
+        - all
+    - name: MacOSX
       versions:
         - all
   galaxy_tags:
