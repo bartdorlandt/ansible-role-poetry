@@ -1,5 +1,10 @@
 # Poetry
-Sets up the poetry environment
+Sets up the poetry environment.
+
+## Own actions
+Once installed you are responsible for adding the poetry paths to your PATH environment.
+
+    export PATH="$HOME/.local/bin:$PATH"
 
 ## Requirements
 - python3
@@ -8,15 +13,15 @@ Sets up the poetry environment
 ## Role Variables
 Available variables are listed below, along with default values (see defaults/main.yml):
 
-    virtualenvs_inproject: true
-    virtualenvs_prefer_active_python: true
+    virtualenvs_inproject: false
+    virtualenvs_prefer_active_python: false
     poetry_ohmyzsh_plugin: false
 
-The top two are setting poetry configruation settings. The poetry_ohmyzsh_plugin flag can be used to enable poetry for ohmyzsh.
+The top two are setting poetry configuration settings. The poetry_ohmyzsh_plugin flag can be used to enable poetry for ohmyzsh.
 
 
 ## Dependencies
-None
+If homebrew (MacOS) was used to install poetry, it would not install it again using the 'normal' installer.
 
 ## Example Playbook
 
@@ -33,8 +38,6 @@ or with variables:
             virtualenvs_inproject: true
             virtualenvs_prefer_active_python: true
             poetry_ohmyzsh_plugin: true
-
-
 
 ## License
 
