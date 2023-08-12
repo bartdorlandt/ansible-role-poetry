@@ -19,11 +19,11 @@
       ansible.builtin.command: poetry config virtualenvs.in-project
       register: poetry_in_project
       changed_when: false
-      when: virtualenvs_inproject
+      when: virtualenvs_in_project
 
     - name: Configure Poetry virtualenvs.in-project
       ansible.builtin.command: poetry config virtualenvs.in-project true
-      when: virtualenvs_inproject and poetry_in_project.stdout != "true"
+      when: virtualenvs_in_project and poetry_in_project.stdout != "true"
 
     - name: Check Poetry virtualenvs.prefer-active-python config
       ansible.builtin.command: poetry config virtualenvs.prefer-active-python

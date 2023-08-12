@@ -13,7 +13,7 @@ Once installed you are responsible for adding the poetry paths to your PATH envi
 ## Role Variables
 Available variables are listed below, along with default values (see defaults/main.yml):
 
-    virtualenvs_inproject: false
+    virtualenvs_in_project: false
     virtualenvs_prefer_active_python: false
     poetry_ohmyzsh_plugin: false
 
@@ -35,7 +35,7 @@ or with variables:
       roles:
         - role: bartdorlandt.poetry
           vars:
-            virtualenvs_inproject: true
+            virtualenvs_in_project: true
             virtualenvs_prefer_active_python: true
             poetry_ohmyzsh_plugin: true
 
