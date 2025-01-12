@@ -25,16 +25,6 @@
       ansible.builtin.command: poetry config virtualenvs.in-project true
       when: virtualenvs_in_project and poetry_in_project.stdout != "true"
 
-    - name: Check Poetry virtualenvs.prefer-active-python config
-      ansible.builtin.command: poetry config virtualenvs.prefer-active-python
-      register: poetry_prefer_active_python
-      changed_when: false
-      when: virtualenvs_prefer_active_python
-
-    - name: Configure Poetry virtualenvs.prefer-active-python
-      ansible.builtin.command: poetry config virtualenvs.prefer-active-python true
-      when: virtualenvs_prefer_active_python and poetry_prefer_active_python.stdout != "true"
-
     - name: Add poetry zsh plugin directory
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/poetry"
